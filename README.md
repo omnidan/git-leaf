@@ -14,9 +14,9 @@ Running
 -------
 
 Download *0.1*:
- * [git-leaf 0.1 for Windows](https://github.com/omnidan/git-leaf/releases/download/v0.1/git-leaf-win.zip)
  * [git-leaf 0.1 for Linux 64bit](https://github.com/omnidan/git-leaf/releases/download/v0.1/git-leaf-lnx64.tar.gz)
  * [git-leaf 0.1 for Linux 32bit](https://github.com/omnidan/git-leaf/releases/download/v0.1/git-leaf-lnx32.tar.gz)
+ * [git-leaf 0.1 for Windows](https://github.com/omnidan/git-leaf/releases/download/v0.1/git-leaf-win.zip) (Please note that 0.1 doesn't fully work on Windows)
  * [git-leaf 0.1 node-webkit app file](https://github.com/omnidan/git-leaf/releases/download/v0.1/git-leaf.nw)
 
 On *Windows* and *Linux*: Unzip/Un-archive the downloaded file. Open the directory and start the executable. If you want, you
