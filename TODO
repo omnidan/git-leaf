@@ -4,10 +4,10 @@
  * Fix duplicate errors on big repos
  * Fix fatal errors on big repos
  * Show diffs when clicking on a commit
- * Show time of a commit
  * Show committer when clicking on a commit
  * Show hash and commit id when clicking on a commit
  * Show remote branches
  * Add search to commits
  * Auto refresh repos?
  * Convert to coffeescript?
+ * Add settings

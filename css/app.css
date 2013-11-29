@@ -33,3 +33,7 @@ ul.tree li:last-child {
 .commit .author {
     color: #95a5a6;
 }
+
+.commit .date {
+    color: #cbd0d3;
+}

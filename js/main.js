@@ -27,8 +27,8 @@ function initRepo(repo) {
     for (var i=0; i < branch_list.length; i++) {
         addBranch(branch_list[i]);
         branches_obj.append(
-            '<button type="button" class="btn btn-default" id="branch-' + branch_list[i] + '">'
-                + branch_list[i] + '</button>'
+            '<button type="button" class="btn btn-default" id="branch-' + branch_list[i] + '">' +
+                branch_list[i] + '</button>'
         );
     }
 
