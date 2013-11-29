@@ -93,6 +93,7 @@ function selectBranch(branch) {
 }
 
 function loadCommit(hashish) {
+    previous_commit = "";
     repo.loadAs("commit", hashish, onCommit);
 }
 
