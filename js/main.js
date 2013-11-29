@@ -12,16 +12,44 @@ var db = fsDb(pfs(git_path));
 
 var repo = jsGit(db);
 
-listBranches();
-loadCommit("test");
+var current_branch = "";
 
-function listBranches() {
-    fs.readdir(git_path + 'refs/heads/', function(err, files) {
-        console.log(files);
+// app
+var branches = getBranches();
+var branches_obj = $('#branches');
+for (var i=0; i < branches.length; i++) {
+    branches_obj.append(
+        '<button type="button" class="btn btn-default" id="branch-' + branches[i] + '">' + branches[i] + '</button>'
+    );
+}
+branches_obj.children('button').each(function () {
+    $(this).click(function () {
+        selectBranch(this.innerHTML);
     });
+});
+selectBranch("master");
+// /app
+
+function getBranches() {
+    return fs.readdirSync(git_path + 'refs/heads/');
+}
+
+function deselectBranch(branch) {
+    var branch_obj = $('#branch-' + branch);
+    branch_obj.removeClass('btn-primary');
+    branch_obj.addClass('btn-default');
+}
+
+function selectBranch(branch) {
+    if (current_branch != "") deselectBranch(current_branch);
+    current_branch = branch;
+    var branch_obj = $('#branch-' + branch);
+    branch_obj.removeClass('btn-default');
+    branch_obj.addClass('btn-primary');
 }
 
 function loadCommit(hashish) {
+    selectBranch(hashish);
     repo.loadAs("commit", hashish, onCommit);
 }
 
