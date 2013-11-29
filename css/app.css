@@ -10,7 +10,7 @@ ul.tree li.vline {
     background: url(../img/vline.png) repeat-y;
     margin: 0;
     padding: 0;
-    height: 5px;
+    height: 6px;
 }
 
 ul.tree ul {
@@ -36,4 +36,26 @@ ul.tree li:last-child {
 
 .commit .date {
     color: #cbd0d3;
+}
+
+.version {
+    color: #95a5a6;
+}
+
+.leaf-header {
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.leaf-body {
+    position: absolute;
+    top: 90px;
+    z-index: 0;
+}
+
+.btn-first {
+    border-bottom-left-radius: 0 !important;
 }

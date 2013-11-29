@@ -8,10 +8,10 @@
     <meta name="author" content="Daniel Bugl">
     <link rel="shortcut icon" href="favicon.png">
 
-    <title>git-leaf</title>
+    <title>git-leaf 0.1</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet"> <!-- for debugging: change to css/bootstrap.css -->
     <link href="css/app.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,17 +24,21 @@
 <body>
 <div class="content">
     <div class="container">
-        <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf</h1>
-        <input style="display: none;" type="file" id="repo-select" nwdirectory />
-        <div class="btn-group btn-group-xs" id="branches">
-            <div id="repo-select-button" class="btn btn-success">
-                <span class="glyphicon glyphicon-folder-open"></span> &nbsp; <span id="repo-name">Open repo...</span>
+        <div class="leaf-header">
+            <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf <small class="version">0.1</small></h1>
+            <input style="display: none;" type="file" id="repo-select" nwdirectory />
+            <div class="btn-group btn-group-xs" id="branches">
+                <div id="repo-select-button" class="btn btn-success btn-first">
+                    <span class="glyphicon glyphicon-folder-open"></span> &nbsp; <span id="repo-name">Open repo...</span>
+                </div>
             </div>
         </div>
-        <ul class="tree" id="tree">
-            <li class="vline">&nbsp;</li>
-            <li>Commit tree empty (choose a repo)</li>
-        </ul>
+        <div class="leaf-body">
+            <ul class="tree" id="tree">
+                <li class="vline">&nbsp;</li>
+                <li>Commit tree empty (choose a repo)</li>
+            </ul>
+        </div>
     </div> <!-- /container -->
 </div> <!-- /content -->
 

@@ -1,4 +1,14 @@
 {
-  "name": "git-trees",
-  "main": "index.html"
+  "main": "index.html",
+  "name": "git-leaf",
+  "version": "0.1.0-dev",
+  "description": "simple and beautiful git trees",
+  "keywords": [ "git", "tree", "viewer", "browser", "node-webkit" ],
+  "window": {
+    "icon": "favicon.png",
+    "toolbar": true, 
+    "frame": true,
+    "min_width": 400,
+    "min_height": 200
+  }
 }
