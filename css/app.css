@@ -1,4 +1,3 @@
-
 ul.tree, ul.tree ul {
     list-style-type: none;
     background: url(../img/vline.png) repeat-y;
@@ -21,4 +20,8 @@ ul.tree li {
 
 ul.tree li:last-child {
     background: #fff url(../img/lastnode.png) no-repeat;
+}
+
+.commit .author {
+    color: #95a5a6;
 }
