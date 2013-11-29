@@ -12,6 +12,8 @@ var db = fsDb(pfs(git_path));
 
 var repo = jsGit(db);
 
+var previous_commit = "";
+
 var branches = [];
 var branch_hashes = [];
 function Branch (name, hash) {
@@ -95,12 +97,18 @@ function loadCommit(hashish) {
 }
 
 function onCommit(err, commit, hash) {
-    if (err) throw err;
-    console.log("COMMIT", hash, commit);
+    if (hash == previous_commit) {
+        console.log("DUPLICATE COMMIT: " + hash);
+        return;
+    }
+    if (err) {
+        console.log("FATAL ERROR: " + err);
+        return;
+    }
+    //console.log("COMMIT", hash, commit);
 
     var buffer = '<li class="commit">';
     var branch = branch_hashes.indexOf(hash);
-    console.log(branch_hashes);
 
     if (branch != -1) buffer += '<span class="label ' + branches[branch].color + '">' + branches[branch].name + '</span> ';
 
@@ -111,25 +119,9 @@ function onCommit(err, commit, hash) {
 
     $('#tree').append(buffer);
 
-    //loadTree(commit.tree);
     if (commit.parents) {
         commit.parents.forEach(loadCommit);
     }
-}
 
-function loadTree(hash) {
-    repo.loadAs("tree", hash, onTree);
-}
-
-function onTree(err, tree, hash) {
-    if (err) throw err;
-    console.log("TREE", hash, tree);
-    tree.forEach(onEntry);
-}
-
-function onEntry(entry) {
-    repo.loadAs("blob", entry.hash, function (err, blob) {
-        if (err) throw err;
-        console.log("BLOB", entry.hash, blob);
-    });
+    previous_commit = hash;
 }
