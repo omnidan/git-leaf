@@ -12,16 +12,45 @@ var db = fsDb(pfs(git_path));
 
 var repo = jsGit(db);
 
+var branches = [];
+var branch_hashes = [];
+function Branch (name, hash) {
+    this.name = name;
+    this.hash = hash;
+    this.color = getBranchColor();
+}
+
+function getBranchColor() {
+    switch (branches.length) {
+        default:
+            return "label-primary";
+            break;
+        case 1:
+            return "label-success";
+            break;
+        case 2:
+            return "label-info";
+            break;
+        case 3:
+            return "label-warning";
+            break;
+        case 4:
+            return "label-danger";
+            break;
+    }
+}
+
 var current_branch = "";
 
 // app
-var branches = getBranches();
-var branch_hashes = [];
+var branch_list = getBranches();
 var branches_obj = $('#branches');
-for (var i=0; i < branches.length; i++) {
-    branch_hashes.push(getBranchHash(branches[i]));
+for (var i=0; i < branch_list.length; i++) {
+    var current_hash = getBranchHash(branch_list[i]);
+    branches.push(new Branch(branch_list[i], current_hash));
+    branch_hashes.push(current_hash);
     branches_obj.append(
-        '<button type="button" class="btn btn-default" id="branch-' + branches[i] + '">' + branches[i] + '</button>'
+        '<button type="button" class="btn btn-default" id="branch-' + branch_list[i] + '">' + branch_list[i] + '</button>'
     );
 }
 branches_obj.children('button').each(function () {
@@ -73,7 +102,7 @@ function onCommit(err, commit, hash) {
     var branch = branch_hashes.indexOf(hash);
     console.log(branch_hashes);
 
-    if (branch != -1) buffer += '<span class="label label-primary">' + branches[branch] + '</span> ';
+    if (branch != -1) buffer += '<span class="label ' + branches[branch].color + '">' + branches[branch].name + '</span> ';
 
     buffer += commit.message +
         ' <small class="author"> - ' + commit.author.name + ' &lt;' + commit.author.email + '&gt;</small>';
