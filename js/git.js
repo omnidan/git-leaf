@@ -46,6 +46,7 @@ function getBranchHash(branch) {
 function loadBranch(branch) {
     selectBranch(branch);
     $('#tree').empty();
+    $('#tree').append('<li class="vline">&nbsp;</li>');
     loadCommit(branch);
 }
 
@@ -99,7 +100,7 @@ function onCommit(err, commit, hash) {
 }
 
 function loadRepo(path) {
-    git_path = path + '.git/';
+    git_path = path + '/.git/';
 
     var platform = require('git-node-platform');
     var jsGit = require('js-git');

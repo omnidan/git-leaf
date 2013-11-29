@@ -5,6 +5,14 @@ ul.tree, ul.tree ul {
     padding: 0;
 }
 
+ul.tree li.vline {
+    list-style-type: none;
+    background: url(../img/vline.png) repeat-y;
+    margin: 0;
+    padding: 0;
+    height: 5px;
+}
+
 ul.tree ul {
     margin-left: 10px;
 }

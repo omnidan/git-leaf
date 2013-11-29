@@ -9,6 +9,5 @@
  * Show hash and commit id when clicking on a commit
  * Show remote branches
  * Add search to commits
- * Allow refresh repos
  * Auto refresh repos?
- * Add a file chooser to choose a repo
+ * Convert to coffeescript?

@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="git-trees - simple git history viewer">
+    <meta name="description" content="git-leaf - simple git history viewer">
     <meta name="author" content="Daniel Bugl">
     <link rel="shortcut icon" href="favicon.png">
 
-    <title>git-trees</title>
+    <title>git-leaf</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -24,16 +24,22 @@
 <body>
 <div class="content">
     <div class="container">
-        <div class="btn-group btn-group-xs" id="branches"></div>
+        <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf</h1>
+        <input style="display: none;" type="file" id="repo-select" nwdirectory />
+        <div class="btn-group btn-group-xs" id="branches">
+            <div id="repo-select-button" class="btn btn-success">
+                <span class="glyphicon glyphicon-folder-open"></span> &nbsp; <span id="repo-name">Open repo...</span>
+            </div>
+        </div>
         <ul class="tree" id="tree">
-            <li>Loading commit tree...</li>
+            <li class="vline">&nbsp;</li>
+            <li>Commit tree empty (choose a repo)</li>
         </ul>
     </div> <!-- /container -->
 </div> <!-- /content -->
 
 <!-- JavaScript placed at the end of the document so the pages load faster -->
-<script src="js/jquery-2.0.3.js"></script>
-<script src="js/bootstrap.js"></script>
+<script src="js/jquery-2.0.3.min.js"></script> <!-- for debugging: change to js/jquery-2.0.3.js -->
 <script src="js/git.js"></script>
 <script src="js/main.js"></script>
 
