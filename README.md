@@ -28,8 +28,8 @@ Experimenting
 -------------
 
 git-leaf is still in active development. The *master* branch is the experimental branch. There is a strong focus on
-responsive design and simplicity. I plan on converting all the JavaScript code to CoffeeScript later. To see what other
-plans I have for git-leaf, see the [TODO file](https://github.com/omnidan/git-leaf/raw/master/TODO).
+responsive design and simplicity.
+To see what plans I have for git-leaf, check out the [TODO file](https://github.com/omnidan/git-leaf/raw/master/TODO).
 
 To test git-leaf, you need node-webkit and npm. Install it globally (or run nw from the right path), then install the
 dependencies:
