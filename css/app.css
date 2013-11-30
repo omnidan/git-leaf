@@ -74,13 +74,30 @@ ul.tree li:last-child {
     margin-left: 5px;
     opacity: 0.5;
     top: 2px;
+
+    transition-property: all;
+    -moz-transition-property: all; /* Firefox 4 */
+    -webkit-transition-property: all; /* Safari and Chrome */
+    -o-transition-property: all; /* Opera */
+
+    transition-duration: 0.20s;
+    -moz-transition-duration: 0.20s; /* Firefox 4 */
+    -webkit-transition-duration: 0.20s; /* Safari and Chrome */
+    -o-transition-duration: 0.20s; /* Opera */
+
+    transition-timing-function: linear;
+    -moz-transition-timing-function: linear; /* Firefox 4 */
+    -webkit-transition-timing-function: linear; /* Safari and Chrome */
+    -o-transition-timing-function: linear; /* Opera */
 }
 
 #refresh-icon:hover {
     opacity: 1;
+
     transform: rotate(30deg);
-    -ms-transform: rotate(30deg);
-    -webkit-transform: rotate(30deg);
+    -ms-transform: rotate(30deg); /* Firefox 4 */
+    -webkit-transform: rotate(30deg); /* Safari and Chrome */
+    -o-transform: rotate(30deg); /* Opera */
 }
 
 
