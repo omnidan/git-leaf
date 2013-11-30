@@ -1,7 +1,7 @@
 {
   "main": "index.html",
   "name": "git-leaf",
-  "version": "0.1.0-dev",
+  "version": "0.2.0-dev",
   "description": "simple and beautiful git trees",
   "keywords": [ "git", "tree", "viewer", "browser", "node-webkit" ],
   "window": {
