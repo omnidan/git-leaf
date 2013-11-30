@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 var repo, git_path;
 
@@ -35,11 +36,11 @@ function getBranchColor() {
 var current_branch = "";
 
 function getBranches() {
-    return fs.readdirSync(git_path + 'refs/heads/');
+    return fs.readdirSync(path.join(git_path, 'refs', 'heads'));
 }
 
 function getBranchHash(branch) {
-    var contents = fs.readFileSync(git_path + 'refs/heads/' + branch, 'utf8');
+    var contents = fs.readFileSync(path.join(git_path, 'refs', 'heads', branch), 'utf8');
     return contents.replace(/(\r\n|\n|\r)/gm, "");
 }
 
@@ -101,8 +102,8 @@ function onCommit(err, commit, hash) {
     previous_commit = hash;
 }
 
-function loadRepo(path) {
-    git_path = path + '/.git/';
+function loadRepo(repo_path) {
+    git_path = path.join(repo_path, '.git');
 
     var platform = require('git-node-platform');
     var jsGit = require('js-git');
