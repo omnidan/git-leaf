@@ -1,7 +1,8 @@
 // load modules
 var git   = require('nodegit'),
     fs    = require('fs'),
-    path  = require('path');
+    path  = require('path'),
+    sort  = git.RevWalk.Sort;
 
 function getBranches(git_path) {
     return fs.readdirSync(path.join(git_path, 'refs', 'heads'));
@@ -62,7 +63,7 @@ function openBranch(repo, addCommitCallback, branch) {
             return;
         }
 
-        var history = current_branch.history();
+        var history = current_branch.history(sort.Time);
 
         // go through history
         history.on('commit', function(commit) {
