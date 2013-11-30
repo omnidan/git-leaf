@@ -1,122 +1,82 @@
-var fs = require('fs');
-var path = require('path');
+// load modules
+var git   = require('nodegit'),
+    fs    = require('fs'),
+    path  = require('path');
 
-var repo, git_path;
-
-var previous_commit = "";
-
-var branches = [];
-var branch_hashes = [];
-function Branch (name, hash) {
-    this.name = name;
-    this.hash = hash;
-    this.color = getBranchColor();
-}
-
-function getBranchColor() {
-    switch (branches.length) {
-        default:
-            return "label-primary";
-            break;
-        case 1:
-            return "label-success";
-            break;
-        case 2:
-            return "label-info";
-            break;
-        case 3:
-            return "label-warning";
-            break;
-        case 4:
-            return "label-danger";
-            break;
-    }
-}
-
-var current_branch = "";
-
-function getBranches() {
+function getBranches(git_path) {
     return fs.readdirSync(path.join(git_path, 'refs', 'heads'));
 }
 
-function getBranchHash(branch) {
+function getBranchHash(git_path, branch) {
     var contents = fs.readFileSync(path.join(git_path, 'refs', 'heads', branch), 'utf8');
     return contents.replace(/(\r\n|\n|\r)/gm, "");
 }
 
-function loadBranch(branch) {
-    selectBranch(branch);
-    $('#tree').empty();
-    $('#tree').append('<li class="vline">&nbsp;</li>');
-    loadCommit(branch);
+function openRepo(repo_path, addBranchCallback, repoReadyCallback) {
+    if (addBranchCallback) var branch_callback = addBranchCallback;
+    if (repoReadyCallback) var repo_callback = repoReadyCallback;
+
+    var git_path = path.join(repo_path, '.git');
+
+    git.Repo.open(git_path, function(err, repo) {
+        if (err) {
+            console.log("FATAL ERROR: " + err); // TODO: Display this error in a notification
+            return null;
+        }
+
+        var branches = getBranches(git_path);
+        var branch_hashes = [];
+
+        for (var i=0; i < branches.length; i++) {
+            if (branch_callback) branch_callback(branches[i]);
+
+            branch_hashes.push(getBranchHash(git_path, branches[i]));
+        }
+
+        var master_branch = "master";
+        if (branches.indexOf(master_branch) == -1) {
+            if (branches.length == 0) {
+                console.log("FATAL ERROR: No branches found."); // TODO: Display this error in a notification
+                return null;
+            }
+
+            // master doesn't exist, get first branch
+            master_branch = branches[0];
+        }
+
+        repo.branches = branches;
+        repo.branch_hashes = branch_hashes;
+        repo.master_branch = master_branch;
+
+        if (repoReadyCallback) repo_callback(repo);
+    });
 }
 
-function deselectBranch(branch) {
-    var branch_obj = $('#branch-' + branch);
-    branch_obj.removeClass('btn-primary');
-    branch_obj.addClass('btn-default');
-}
+function openBranch(repo, addCommitCallback, branch) {
+    if (addCommitCallback) var commit_callback = addCommitCallback;
 
-function selectBranch(branch) {
-    if (current_branch != "") deselectBranch(current_branch);
-    current_branch = branch;
-    var branch_obj = $('#branch-' + branch);
-    branch_obj.removeClass('btn-default');
-    branch_obj.addClass('btn-primary');
-}
+    if (!branch) branch = repo.master_branch;
+    repo.getBranch(branch, function(err, current_branch) {
+        if (err) {
+            console.log("FATAL ERROR: " + err); // TODO: Display this error in a notification
+            return;
+        }
 
-function loadCommit(hashish) {
-    previous_commit = "";
-    repo.loadAs("commit", hashish, onCommit);
-}
+        var history = current_branch.history();
 
-function onCommit(err, commit, hash) {
-    if (hash == previous_commit) {
-        console.log("DUPLICATE COMMIT: " + hash);
-        return;
-    }
-    if (err) {
-        console.log("FATAL ERROR: " + err);
-        return;
-    }
-    //console.log("COMMIT", hash, commit);
+        // go through history
+        history.on('commit', function(commit) {
+            var c = {};
+            c.hash = commit.sha();
+            c.date = commit.date();
+            c.author = {};
+            c.author.name = commit.author().name();
+            c.author.email = commit.author().email();
+            c.message = commit.message();
 
-    var buffer = '<li class="commit">';
-    var branch = branch_hashes.indexOf(hash);
+            if (commit_callback) commit_callback(c);
+        });
 
-    if (branch != -1) buffer += '<span class="label ' + branches[branch].color + '">' +
-        branches[branch].name + '</span> ';
-
-    buffer += commit.message +
-        ' <small class="author"> - ' + commit.author.name + ' &lt;' + commit.author.email + '&gt;</small> ' +
-        ' <small class="date">at ' + commit.author.date + '</small>';
-
-    buffer += '</li>';
-
-    $('#tree').append(buffer);
-
-    if (commit.parents) {
-        commit.parents.forEach(loadCommit);
-    }
-
-    previous_commit = hash;
-}
-
-function loadRepo(repo_path) {
-    git_path = path.join(repo_path, '.git');
-
-    var platform = require('git-node-platform');
-    var jsGit = require('js-git');
-    var fsDb = require('git-fs-db')(platform);
-    var pfs = platform.fs;
-    var db = fsDb(pfs(git_path));
-
-    repo = jsGit(db);
-}
-
-function addBranch(name) {
-    var current_hash = getBranchHash(name);
-
-    branches.push(new Branch(name, current_hash));
-    branch_hashes.push(current_hash);
+        history.start();
+    });
 }

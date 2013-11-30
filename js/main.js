@@ -16,27 +16,101 @@ $('#repo-select-button').click(function () {
     repo_select.trigger('click');
 });
 
-function initRepo(repo) {
-    loadRepo(repo);
+var current_branch = "";
+var previous_commit = "";
+var repo;
 
-    $('#repo-name').html(repo);
+function getBranchColor(branch_num) {
+    switch (branch_num) {
+        default:
+            return "label-primary";
+            break;
+        case 1:
+            return "label-success";
+            break;
+        case 2:
+            return "label-info";
+            break;
+        case 3:
+            return "label-warning";
+            break;
+        case 4:
+            return "label-danger";
+            break;
+    }
+}
 
-    var branch_list = getBranches();
-    var branches_obj = $('#branches');
+function loadBranch(repo, commitCallback, branch) {
+    if (!branch) branch = repo.master_branch;
+    selectBranch(branch);
+    var tree = $('#tree');
+    tree.empty();
+    tree.append('<li class="vline">&nbsp;</li>');
+    openBranch(repo, commitCallback, branch);
+}
 
-    for (var i=0; i < branch_list.length; i++) {
-        addBranch(branch_list[i]);
-        branches_obj.append(
-            '<button type="button" class="btn btn-default" id="branch-' + branch_list[i] + '">' +
-                branch_list[i] + '</button>'
-        );
+function deselectBranch(branch) {
+    var branch_obj = $('#branch-' + branch);
+    branch_obj.removeClass('btn-primary');
+    branch_obj.addClass('btn-default');
+}
+
+function selectBranch(branch) {
+    if (current_branch != "") deselectBranch(current_branch);
+    current_branch = branch;
+    var branch_obj = $('#branch-' + branch);
+    branch_obj.removeClass('btn-default');
+    branch_obj.addClass('btn-primary');
+}
+
+var grepo;
+
+function onCommit(commit) {
+    if (commit.hash == previous_commit) {
+        console.log("DUPLICATE COMMIT: " + commit.hash);
+        return;
     }
 
-    loadBranch("master");
+    var buffer = '<li class="commit">';
+    var branch = grepo.branch_hashes.indexOf(commit.hash);
 
-    branches_obj.children('button').each(function () {
-        $(this).click(function () {
-            loadBranch(this.innerHTML);
+    if (branch != -1) buffer += '<span class="label ' + getBranchColor(branch) + '">' +
+        grepo.branches[branch] + '</span> ';
+
+    buffer += commit.message +
+        ' <small class="author"> - ' + commit.author.name + ' &lt;' + commit.author.email + '&gt;</small> ' +
+        ' <small class="date">at ' + commit.date + '</small>';
+
+    buffer += '</li>';
+
+    $('#tree').append(buffer);
+
+    previous_commit = commit.hash;
+}
+
+var branches_obj = $('#branches');
+
+function addBranch(branch) {
+    branches_obj.append(
+        '<button type="button" class="btn btn-default" id="branch-' + branch + '">' +
+            branch + '</button>'
+    );
+}
+
+function initRepo(repo_path) {
+    openRepo(repo_path, addBranch, function(repo) {
+        grepo = repo;
+
+        $('#repo-name').html(repo_path);
+
+        var branches_obj = $('#branches');
+
+        loadBranch(repo, onCommit);
+
+        branches_obj.children('button').each(function () {
+            $(this).click(function () {
+                loadBranch(repo, onCommit, this.innerHTML);
+            });
         });
     });
 }

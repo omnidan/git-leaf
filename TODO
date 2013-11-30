@@ -1,8 +1,5 @@
- * Refactor everything
  * Show merges as sub-trees
  * Show trees in different colors (branch colors)
- * Fix duplicate errors on big repos
- * Fix fatal errors on big repos
  * Show diffs when clicking on a commit
  * Show committer when clicking on a commit
  * Show hash and commit id when clicking on a commit
@@ -13,5 +10,4 @@
  * Add settings
  * Change branch button to dropdown button?
  * Custom scroll bar
- * Fix on Windows
- * Move to nodegit?
+ * Compile for Windows, switch to different lib?
