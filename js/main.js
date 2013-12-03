@@ -41,7 +41,7 @@ window.setInterval(function () {
     // TODO: is this too heavy?
     $('#tree .icon-new').each(function (index, e) {
         cur_opacity = $(e).css('opacity');
-        if (cur_opacity <= 0.2) $(e).remove();
+        if (cur_opacity <= 0.2) $(e).hide(function () { $(e).remove(); });
         $(e).fadeTo('slow', cur_opacity-0.02);
     });
     diffRepo(current_branch, g_repo, current_branch);
