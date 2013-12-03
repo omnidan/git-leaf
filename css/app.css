@@ -100,6 +100,10 @@ ul.tree li:last-child {
     -o-transform: rotate(30deg); /* Opera */
 }
 
+.icon-new {
+    color: #7f8c8d;
+}
+
 
 /* beautiful scroll-bar */
 ::-webkit-scrollbar {

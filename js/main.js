@@ -11,6 +11,7 @@ var first_commit;
 var diff_done;
 var diff_in_progress;
 var i = 0;
+var cur_opacity = 0;
 
 var tree_obj = $('#tree');
 
@@ -32,14 +33,19 @@ $('#repo-select-button').click(function () {
 });
 
 $('#refresh-icon').click(function () {
-    // TODO: if it doesn't equal, read all new commits and prepend them, then show them as NEW or something.
     if (current_repo) initRepo(current_repo);
     if (current_branch) loadBranch(g_repo, onCommit, current_branch);
 });
 
 window.setInterval(function () {
+    // TODO: is this too heavy?
+    $('#tree .icon-new').each(function (index, e) {
+        cur_opacity = $(e).css('opacity');
+        if (cur_opacity <= 0.2) $(e).remove();
+        $(e).fadeTo('slow', cur_opacity-0.02);
+    });
     diffRepo(current_branch, g_repo, current_branch);
-}, 1000);
+}, 2500);
 
 function getBranchColor(branch_num) {
     switch (branch_num) {
@@ -100,6 +106,8 @@ function onCommit(commit) {
 
     var buffer = '<li class="commit"><div id="commit-' + commit.hash + '"><span class="header">';
     var branch = g_repo.branch_hashes.indexOf(commit.hash);
+
+    if (diff_in_progress) buffer += '<span class="glyphicon glyphicon-asterisk icon-new"></span> ';
 
     if (branch != -1) buffer += '<span class="label ' + getBranchColor(branch) + '">' +
         g_repo.branches[branch] + '</span> ';
