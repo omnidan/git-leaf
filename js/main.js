@@ -1,12 +1,18 @@
 "use strict";
 
 var autoload = null; // autoload a repo, for debugging purposes
-autoload = '/home/dan/dev/projects/git-leaf';
+autoload = '/home/dan/dev/experiments/gittest';
 
 var g_repo;
 var current_repo;
 var current_branch;
 var previous_commit;
+var first_commit;
+var diff_done;
+var diff_in_progress;
+var i = 0;
+
+var tree_obj = $('#tree');
 
 var repo_select = $('#repo-select');
 
@@ -26,9 +32,14 @@ $('#repo-select-button').click(function () {
 });
 
 $('#refresh-icon').click(function () {
+    // TODO: if it doesn't equal, read all new commits and prepend them, then show them as NEW or something.
     if (current_repo) initRepo(current_repo);
     if (current_branch) loadBranch(g_repo, onCommit, current_branch);
 });
+
+window.setInterval(function () {
+    diffRepo(current_branch, g_repo, current_branch);
+}, 1000);
 
 function getBranchColor(branch_num) {
     switch (branch_num) {
@@ -51,11 +62,16 @@ function getBranchColor(branch_num) {
 }
 
 function loadBranch(repo, commitCallback, branch) {
+    if (!diff_in_progress) first_commit = undefined;
+
     if (!branch) branch = repo.master_branch;
     selectBranch(branch);
-    var tree = $('#tree');
-    tree.empty();
-    tree.append('<li class="vline">&nbsp;</li>');
+
+    if (!diff_in_progress) {
+        tree_obj.empty();
+        tree_obj.append('<li class="vline">&nbsp;</li>');
+    }
+
     openBranch(repo, commitCallback, branch);
 }
 
@@ -74,6 +90,8 @@ function selectBranch(branch) {
 }
 
 function onCommit(commit) {
+    if (!first_commit) first_commit = commit.hash;
+
     if (commit.hash == previous_commit) {
         // TODO: is this still needed?
         console.log("DUPLICATE COMMIT: " + commit.hash);
@@ -92,7 +110,10 @@ function onCommit(commit) {
 
     buffer += '</div></li>';
 
-    $('#tree').append(buffer);
+    if (diff_in_progress) {
+        tree_obj.find('.vline').after(buffer);
+    } else tree_obj.append(buffer);
+
     $('#commit-' + commit.hash).click(function () {
         var c_obj = $('#commit-' + commit.hash);
         if (c_obj.data('opened') != true) {
@@ -161,4 +182,27 @@ function initRepo(repo_path) {
             });
         });
     });
+}
+
+function diffCommit(commit) {
+    // FIXME: when two commits are made at once, it loads the second commit twice
+    if (!diff_done) {
+        if (commit.hash == first_commit) {
+            diff_done = true;
+            diff_in_progress = false;
+            if (i > 0) first_commit = previous_commit;
+        } else {
+            onCommit(commit);
+            console.log("UPDATED! New commit: " + commit.hash);
+        }
+    }
+    i++;
+}
+
+function diffRepo(repo_path, repo, branch) {
+    diff_in_progress = true;
+    diff_done = false;
+    i = 0;
+    // TODO: diff branches too
+    loadBranch(repo, diffCommit, branch);
 }
