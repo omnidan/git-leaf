@@ -13,6 +13,18 @@ function getBranchHash(git_path, branch) {
     return contents.replace(/(\r\n|\n|\r)/gm, "");
 }
 
+function getBranchHashes(git_path, branches, branch_callback) {
+    var branch_hashes = [];
+
+    for (var i=0; i < branches.length; i++) {
+        if (branch_callback) branch_callback(branches[i]);
+
+        branch_hashes.push(getBranchHash(git_path, branches[i]));
+    }
+
+    return branch_hashes;
+}
+
 function openRepo(repo_path, addBranchCallback, repoReadyCallback) {
     if (addBranchCallback) var branch_callback = addBranchCallback;
     if (repoReadyCallback) var repo_callback = repoReadyCallback;
@@ -26,13 +38,7 @@ function openRepo(repo_path, addBranchCallback, repoReadyCallback) {
         }
 
         var branches = getBranches(git_path);
-        var branch_hashes = [];
-
-        for (var i=0; i < branches.length; i++) {
-            if (branch_callback) branch_callback(branches[i]);
-
-            branch_hashes.push(getBranchHash(git_path, branches[i]));
-        }
+        var branch_hashes = getBranchHashes(git_path, branches, branch_callback);
 
         var master_branch = "master";
         if (branches.indexOf(master_branch) == -1) {
@@ -45,6 +51,7 @@ function openRepo(repo_path, addBranchCallback, repoReadyCallback) {
             master_branch = branches[0];
         }
 
+        repo.git_path = git_path;
         repo.branches = branches;
         repo.branch_hashes = branch_hashes;
         repo.master_branch = master_branch;

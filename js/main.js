@@ -44,7 +44,7 @@ window.setInterval(function () {
         if (cur_opacity <= 0.2) $(e).hide(function () { $(e).remove(); });
         $(e).fadeTo('slow', cur_opacity-0.02);
     });
-    diffRepo(current_branch, g_repo, current_branch);
+    diffRepo(g_repo, current_branch);
 }, 2500);
 
 function getBranchColor(branch_num) {
@@ -109,8 +109,12 @@ function onCommit(commit) {
 
     if (diff_in_progress) buffer += '<span class="glyphicon glyphicon-asterisk icon-new"></span> ';
 
-    if (branch != -1) buffer += '<span class="label ' + getBranchColor(branch) + '">' +
-        g_repo.branches[branch] + '</span> ';
+    if (branch != -1) {
+        if (diff_in_progress) $('#tree .' + getBranchColor(branch)).remove();
+
+        buffer += '<span class="label ' + getBranchColor(branch) + '">' +
+            g_repo.branches[branch] + '</span> ';
+    }
 
     buffer += '<span class="message">' + commit.message + '</span></span>' +
         ' <small class="author"> - ' + commit.author.name + ' &lt;' + commit.author.email + '&gt;</small> ' +
@@ -207,10 +211,17 @@ function diffCommit(commit) {
     i++;
 }
 
-function diffRepo(repo_path, repo, branch) {
+function diffRepo(repo, branch) {
     diff_in_progress = true;
     diff_done = false;
     i = 0;
-    // TODO: diff branches too
+    var branches = getBranches(repo.git_path);
+    $(g_repo.branches).not(branches).get().forEach(function(e) {
+        addBranch(e);
+    });
+    g_repo.branches = branches;
+    // FIXME: branch diffs don't fully work yet, deleted branches are still shown, branch hashes are not fully updated
+    // FIXME: sometimes switching branches doesn't work because it's diffing
+    g_repo.branch_hashes = getBranchHashes(repo.git_path, g_repo.branches);
     loadBranch(repo, diffCommit, branch);
 }
