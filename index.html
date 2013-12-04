@@ -23,8 +23,8 @@
 
 <body>
 <div class="content">
-    <div class="container">
-        <div class="leaf-header">
+    <div class="leaf-header">
+        <div class="container">
             <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf <small class="version">0.2-dev</small></h1>
             <input style="display: none;" type="file" id="repo-select" nwdirectory />
             <div class="btn-group btn-group-xs" id="branches">
@@ -33,7 +33,14 @@
                 </div>
             </div>
             <span class="glyphicon glyphicon-refresh" id="refresh-icon"></span>
-        </div>
+            <form class="form-inline search-form" role="search">
+                <div class="form-group">
+                    <input id="search" type="search" class="form-control search" placeholder="Filter..." />
+                </div>
+            </form>
+        </div> <!-- /container -->
+    </div>
+    <div class="container">
         <div class="leaf-body">
             <ul class="tree" id="tree">
                 <li class="vline">&nbsp;</li>

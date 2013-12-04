@@ -37,6 +37,11 @@ $('#refresh-icon').click(function () {
     if (current_branch) loadBranch(g_repo, onCommit, current_branch);
 });
 
+$('#search').on('input', function () {
+    console.log("hi: " + $(this).val());
+    searchTree($(this).val());
+});
+
 window.setInterval(function () {
     // TODO: is this too heavy?
     $('#tree .icon-new').each(function (index, e) {
@@ -205,13 +210,13 @@ function diffCommit(commit) {
             if (i > 0) first_commit = previous_commit;
         } else {
             onCommit(commit);
-            console.log("UPDATED! New commit: " + commit.hash);
         }
     }
     i++;
 }
 
 function diffRepo(repo, branch) {
+    // TODO: Lock everything while refreshing/diffing
     diff_in_progress = true;
     diff_done = false;
     i = 0;
@@ -224,4 +229,16 @@ function diffRepo(repo, branch) {
     // FIXME: sometimes switching branches doesn't work because it's diffing
     g_repo.branch_hashes = getBranchHashes(repo.git_path, g_repo.branches);
     loadBranch(repo, diffCommit, branch);
+}
+
+function searchTree(term) {
+    // FIXME: The search input field is sometimes not in the correct position
+    var $li = $("#tree > li");
+
+    $li.hide();
+    $li.filter(function() {
+        return $(this).text().toLowerCase().indexOf(term.toLowerCase()) > -1;
+    }).show();
+
+    $("#tree .vline").show();
 }

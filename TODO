@@ -4,8 +4,6 @@
  * Show committer when clicking on a commit
  * Show hash and commit id when clicking on a commit
  * Show remote branches
- * Add search to commits
- * Auto refresh repos?
  * Add settings
  * Change branch button to dropdown button?
  * Compile for Windows, switch to different lib?

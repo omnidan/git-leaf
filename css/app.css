@@ -104,6 +104,17 @@ ul.tree li:last-child {
     color: #7f8c8d;
 }
 
+.search-form {
+    display: inline;
+    float: right;
+    width: 150px;
+    height: 22px;
+}
+
+.search {
+    height: 22px;
+}
+
 
 /* beautiful scroll-bar */
 ::-webkit-scrollbar {
