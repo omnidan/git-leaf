@@ -13,6 +13,10 @@ var diff_in_progress;
 var i = 0;
 var cur_opacity = 0;
 
+var settings = {
+    auto_refresh: false
+};
+
 var tree_obj = $('#tree');
 
 var repo_select = $('#repo-select');
@@ -35,6 +39,16 @@ $('#repo-select-button').click(function () {
 $('#refresh-icon').click(function () {
     if (current_repo) initRepo(current_repo);
     if (current_branch) loadBranch(g_repo, onCommit, current_branch);
+});
+
+$('#settings-button').click(function () {
+    $('#content').fadeOut();
+    $('#settings').fadeIn();
+});
+
+$('#close-button').click(function () {
+    $('#settings').fadeOut();
+    $('#content').fadeIn();
 });
 
 $('#search').on('input', function () {

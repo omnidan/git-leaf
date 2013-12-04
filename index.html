@@ -22,10 +22,11 @@
 </head>
 
 <body>
-<div class="content">
+<div id="content">
     <div class="leaf-header">
         <div class="container">
             <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf <small class="version">0.2-dev</small></h1>
+            <span class="glyphicon glyphicon-cog pageswitch-button" id="settings-button"></span>
             <input style="display: none;" type="file" id="repo-select" nwdirectory />
             <div class="btn-group btn-group-xs" id="branches">
                 <div id="repo-select-button" class="btn btn-success btn-first">
@@ -35,7 +36,7 @@
             <span class="glyphicon glyphicon-refresh" id="refresh-icon"></span>
             <form class="form-inline search-form" role="search">
                 <div class="form-group">
-                    <input id="search" type="search" class="form-control search" placeholder="Filter..." />
+                    <input id="search" type="search" class="form-control" placeholder="Filter..." />
                 </div>
             </form>
         </div> <!-- /container -->
@@ -49,6 +50,15 @@
         </div>
     </div> <!-- /container -->
 </div> <!-- /content -->
+
+<div id="settings" style="display: none;">
+    <div class="container">
+        <h1><span class="glyphicon glyphicon-leaf"></span> git-leaf <small class="version">settings</small></h1>
+        <span class="glyphicon glyphicon-remove pageswitch-button" id="close-button"></span>
+        <hr />
+        Test
+    </div> <!-- /container -->
+</div> <!-- /settings -->
 
 <!-- JavaScript placed at the end of the document so the pages load faster -->
 <script src="js/jquery-2.0.3.min.js"></script> <!-- for debugging: change to js/jquery-2.0.3.js -->

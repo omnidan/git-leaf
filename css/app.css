@@ -111,8 +111,41 @@ ul.tree li:last-child {
     height: 22px;
 }
 
-.search {
+#search {
     height: 22px;
+}
+
+.pageswitch-button {
+    position: absolute;
+    float: right;
+    right: 15px;
+    top: 15px;
+
+    opacity: 0.5;
+
+    transition-property: all;
+    -moz-transition-property: all; /* Firefox 4 */
+    -webkit-transition-property: all; /* Safari and Chrome */
+    -o-transition-property: all; /* Opera */
+
+    transition-duration: 0.20s;
+    -moz-transition-duration: 0.20s; /* Firefox 4 */
+    -webkit-transition-duration: 0.20s; /* Safari and Chrome */
+    -o-transition-duration: 0.20s; /* Opera */
+
+    transition-timing-function: linear;
+    -moz-transition-timing-function: linear; /* Firefox 4 */
+    -webkit-transition-timing-function: linear; /* Safari and Chrome */
+    -o-transition-timing-function: linear; /* Opera */
+}
+
+.pageswitch-button:hover {
+    opacity: 1;
+}
+
+#settings {
+    top: 0;
+    width: 100%;
 }
 
 
