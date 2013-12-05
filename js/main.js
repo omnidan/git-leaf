@@ -1,7 +1,7 @@
 "use strict";
 
 var autoload = null; // autoload a repo, for debugging purposes
-autoload = '/home/dan/dev/experiments/gittest';
+//autoload = '/home/dan/dev/experiments/gittest';
 
 var g_repo;
 var current_repo;
@@ -37,6 +37,7 @@ $('#repo-select-button').click(function () {
 });
 
 $('#refresh-icon').click(function () {
+    // TODO: this doesn't refresh branch hashes
     if (current_repo) initRepo(current_repo);
     if (current_branch) loadBranch(g_repo, onCommit, current_branch);
 });
@@ -51,6 +52,12 @@ $('#close-button').click(function () {
     $('#content').fadeIn();
 });
 
+$('#settingAutoRefresh').attr('checked', settings['auto_refresh']);
+
+$('#settingAutoRefresh').change(function () {
+    settings['auto_refresh'] = $(this).is(':checked');
+});
+
 $('#search').on('input', function () {
     console.log("hi: " + $(this).val());
     searchTree($(this).val());
@@ -63,7 +70,9 @@ window.setInterval(function () {
         if (cur_opacity <= 0.2) $(e).hide(function () { $(e).remove(); });
         $(e).fadeTo('slow', cur_opacity-0.02);
     });
-    diffRepo(g_repo, current_branch);
+    if (settings['auto_refresh']) {
+        diffRepo(g_repo, current_branch);
+    }
 }, 2500);
 
 function getBranchColor(branch_num) {

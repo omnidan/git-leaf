@@ -148,6 +148,10 @@ ul.tree li:last-child {
     width: 100%;
 }
 
+.setting-checkbox {
+    top: 7px;
+}
+
 
 /* beautiful scroll-bar */
 ::-webkit-scrollbar {
