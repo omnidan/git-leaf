@@ -1,8 +1,11 @@
- * Show merges as sub-trees
- * Show trees in different colors (branch colors)
- * Show diffs when clicking on a commit
+0.2:
  * Show committer when clicking on a commit
  * Show hash and commit id when clicking on a commit
+ * Compile for Windows, switch to different lib?
+
+0.3+:
+ * Show diffs when clicking on a commit
  * Show remote branches
  * Change branch button to dropdown button?
- * Compile for Windows, switch to different lib?
+ * Show merges as sub-trees
+ * Show trees in different colors (branch colors)

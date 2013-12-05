@@ -1,5 +1,7 @@
 "use strict";
 
+// TODO: Refactor JS
+
 var autoload = null; // autoload a repo, for debugging purposes
 //autoload = '/home/dan/dev/experiments/gittest';
 
