@@ -37,5 +37,8 @@ nbproject
 validation-status.json
 validation-report.json
 
+# grunt build dir
+build/
+
 # Folders to ignore
 node_modules

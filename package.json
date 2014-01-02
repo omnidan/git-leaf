@@ -3,10 +3,16 @@
   "name": "git-leaf",
   "version": "0.2.0-dev",
   "description": "simple and beautiful git trees",
-  "keywords": [ "git", "tree", "viewer", "browser", "node-webkit" ],
+  "keywords": [
+    "git",
+    "tree",
+    "viewer",
+    "browser",
+    "node-webkit"
+  ],
   "window": {
     "icon": "favicon.png",
-    "toolbar": true, 
+    "toolbar": true,
     "frame": true,
     "min_width": 550,
     "min_height": 200
@@ -14,6 +20,10 @@
   "dependencies": {
     "nodegit": ">= 0.0.79",
     "async": ">= 0.2.9"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-node-webkit-builder": "~0.1.14"
   },
   "engine": "node >= 0.8",
   "repository": {
