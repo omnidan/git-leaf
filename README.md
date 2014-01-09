@@ -39,7 +39,9 @@ npm install
 
 Now you need to recompile libgit for node-webkit, you can do this by running:
 ```
+cd node_modules/nodegit
 nw-gyp rebuild --target=0.8.1
+cd ../..
 ```
 (You might need to update the target to the latest node-webkit version)
 
